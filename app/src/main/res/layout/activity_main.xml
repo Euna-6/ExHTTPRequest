@@ -17,7 +17,17 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="1000px"
         android:id="@+id/tv1"></TextView>
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:id="@+id/youtubeName"></TextView>
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:id="@+id/youtubeTitle"></TextView>
 
 </LinearLayout>

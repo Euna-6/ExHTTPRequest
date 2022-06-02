@@ -4,10 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -28,12 +33,13 @@ public class MainActivity extends AppCompatActivity {
 
     EditText et;
     Button btn;
-    TextView tv;
+    TextView tv, tvYoutubeName, tvYoutubeTitle;
 
     String youtubeURL="https://noembed.com/embed?url=https://www.youtube.com/watch?v=";
+    String jsonStr="";
+    String youtubeName, youtubeTitle;
 
     Handler handler = new Handler();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
         et = (EditText)findViewById(R.id.et1);
         btn = (Button)findViewById(R.id.btn1);
         tv = (TextView) findViewById(R.id.tv1);
+        tvYoutubeName = (TextView) findViewById(R.id.youtubeName);
+        tvYoutubeTitle = (TextView) findViewById(R.id.youtubeTitle);
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
                 }).start();
             }
         });
+
     }
 
     public void request(String urlStr) {
@@ -109,7 +118,19 @@ public class MainActivity extends AppCompatActivity {
             println("예외 발생 :" + e.toString());
         }
 
-        println("응답 -> " + output.toString());
+        //println("응답 -> " + output.toString());
+        jsonStr = output.toString();
+        println(jsonStr);
+        try {
+            JSONObject jObject = new JSONObject(jsonStr);
+            youtubeTitle = jObject.getString("title");
+            youtubeName = jObject.getString("author_name");
+            tvYoutubeTitle.setText(youtubeTitle);
+            tvYoutubeName.setText(youtubeName);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     public void println(final String data){
